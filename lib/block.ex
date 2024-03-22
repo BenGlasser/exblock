@@ -35,4 +35,11 @@ defmodule Block do
   def valid?(%Block{} = block) do
     block.hash == Crypto.hash(block)
   end
+
+  @doc """
+  Check if a block is valid in relation to a previous block.
+  """
+  def valid?(%Block{} = block, %Block{} = prev_block) do
+    valid?(block) && block.prev_hash == prev_block.hash
+  end
 end

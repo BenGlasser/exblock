@@ -23,4 +23,20 @@ defmodule Blockchain do
 
     [new_block | blockchain]
   end
+
+  @doc """
+  Check if the entire blockchain is valid.
+  """
+  def valid?(blockchain) do
+    blockchain
+    |> Enum.reverse()
+    |> validate_chain()
+  end
+
+  # Private function to validate the chain recursively
+  defp validate_chain([genesis_block]), do: Block.valid?(genesis_block)
+
+  defp validate_chain([block | [prev_block | _] = rest]) do
+    Block.valid?(block, prev_block) && validate_chain(rest)
+  end
 end

@@ -7,21 +7,19 @@ defmodule Crypto do
   @hash_fields [:data, :timestamp, :prev_hash]
 
   @doc """
-  Calculate basic hash of input data.
+  Calculate hash of block or any data.
   """
-  def hash(data) do
-    data
-    |> Poison.encode!()
-    |> (&:crypto.hash(:sha256, &1)).()
-    |> Base.encode16(case: :lower)
-  end
-
-  @doc "Calculate hash of block"
-  def hash(%{} = block) do
+  def hash(%Block{} = block) do
     block
     |> Map.take(@hash_fields)
     |> Poison.encode!
     |> sha256
+  end
+
+  def hash(data) do
+    data
+    |> Poison.encode!()
+    |> sha256()
   end
 
   @doc "Calculate and put the hash in the block"

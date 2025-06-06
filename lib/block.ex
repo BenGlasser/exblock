@@ -11,7 +11,7 @@ defmodule Block do
   def new(data, prev_hash) do
     %Block{
       data: data,
-      timestamp: DateTime.utc_now() |> DateTime.to_unix(),
+      timestamp: NaiveDateTime.utc_now(),
       prev_hash: prev_hash,
       hash: nil
     }
@@ -23,8 +23,8 @@ defmodule Block do
   def zero do
     %Block{
       data: "ZERO_DATA",
-      timestamp: 0,
-      prev_hash: nil,
+      timestamp: NaiveDateTime.utc_now(),
+      prev_hash: "ZERO_HASH",
       hash: nil
     }
   end

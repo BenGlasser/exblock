@@ -34,9 +34,10 @@ defmodule Blockchain do
   end
 
   # Private function to validate the chain recursively
+  defp validate_chain([]), do: false
   defp validate_chain([genesis_block]), do: Block.valid?(genesis_block)
 
-  defp validate_chain([block | [prev_block | _] = rest]) do
-    Block.valid?(block, prev_block) && validate_chain(rest)
+  defp validate_chain([prev_block | [current_block | _] = rest]) do
+    Block.valid?(prev_block) && Block.valid?(current_block, prev_block) && validate_chain(rest)
   end
 end
